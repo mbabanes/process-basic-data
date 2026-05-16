@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>JSON Form</title>
+</head>
+<body>
+
+<h1>Formularz JSON</h1>
+
+<form id="userForm">
+
+    <div>
+        <label>Nazwa Firmy:</label>
+        <input type="text" id="name">
+    </div>
+
+    <div>
+        <label>Nip:</label>
+        <input type="text" id="nip">
+    </div>
+    <div>
+        <label>Imię:</label>
+        <input type="text" id="first-name">
+    </div>
+
+    <div>
+        <label>Nazwisko:</label>
+        <input type="text" id="last-name">
+    </div>
+    <input type="text" id="process-id" th:value="${processId}" hidden="hidden">
+    <button type="submit">Wyślij</button>
+
+</form>
+
+<script>
+
+    document.getElementById("userForm")
+        .addEventListener("submit", async function (e) {
+
+            e.preventDefault();
+
+            const data = {
+                name: document.getElementById("name").value,
+                nip: document.getElementById("nip").value,
+                firstName: document.getElementById("first-name").value,
+                lastName: document.getElementById("last-name").value,
+                processId: document.getElementById("process-id").value,
+            };
+
+            const response = await fetch("/company-data", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.text();
+            //
+            // document.getElementById("result").innerText = result;
+        });
+
+</script>
+
+</body>
+</html>
