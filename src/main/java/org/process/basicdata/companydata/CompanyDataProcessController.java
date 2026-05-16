@@ -20,6 +20,7 @@ class CompanyDataProcessController {
 
     @PostMapping("company-data-process-start")
     void createProcess(@RequestBody CreateCompanyDataProcessRequest request) {
+        log.info("Creating process with id={}", request.processId());
         CompanyDataProcessEntity entity = new CompanyDataProcessEntity(request.processId());
         companyDataProcessRepository.save(entity);
     }
