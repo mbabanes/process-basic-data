@@ -27,12 +27,12 @@ class CompanyDataController {
     public void handleForm(
             @RequestBody CompanyData companyData) {
         log.info("Handle company-data {}", companyData);
-        sendCreateCompanyDataProcess(companyData.processId());
+        boolean rejected = "22".equals(companyData.name());
+        sendCreateCompanyDataProcess(companyData.processId(), rejected);
     }
 
 
-
-    private void sendCreateCompanyDataProcess(String processInstanceId) {
+    private void sendCreateCompanyDataProcess(String processInstanceId, boolean rejected) {
 
         String url = "http://localhost:8070/form-result";
 
@@ -40,7 +40,7 @@ class CompanyDataController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         Map<String, String> body = Map.of(
                 "processInstanceId", processInstanceId,
-                "approved", "true"
+                "rejected", Boolean.toString(rejected)
 
         );
 
